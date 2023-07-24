@@ -1,58 +1,45 @@
 import FamilyTree.FamilyTree;
-import Gender.Gender;
-import Person.Person;
+import FileHandler.FileHandler;
+import SaveData.FileForSave;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
+import java.util.Scanner;
 
-//        Реализовать, с учетом ооп подхода, приложение.
-//        Для проведения исследований с генеалогическим древом.
-//        Идея: описать некоторое количество компонент, например:
-//        модель человека и дерева
-//        Под “проведением исследования” можно понимать например получение всех детей выбранного человека.
 public class Main {
     public static void main(String[] args) {
-        FamilyTree familyTree = new FamilyTree();
-        Person semen = new Person("Семён Поздняков", LocalDate.of(1965,4,23),
-                LocalDate.of(1999, 9,12), Gender.Male);
-        Person larisa = new Person("Лариса Позднякова", LocalDate.of(1967,9,1), Gender.Female);
-        Person nikifor = new Person("Никифор Поздняков", LocalDate.of(1993,2,11), Gender.Male);
-        Person pavel = new Person("Павел Перенуфай-Корыто", LocalDate.of(1955,3,27),
-                LocalDate.of(2001, 6, 2), Gender.Male);
-        Person uliana = new Person("Ульяна Сорокина", LocalDate.of(1973, 11, 30),
-                LocalDate.of(2022, 3, 25), Gender.Female);
-        Person julia = new Person("Юлия Сорокина", LocalDate.of(1992, 2, 13),  Gender.Female);
-        Person fedja = new Person("Фёдор Поздняков", LocalDate.of(2015, 10, 2), Gender.Male);
-        Person petja = new Person("Пётр Поздняков", LocalDate.of(2015, 10, 2), Gender.Male);
-        Person glasha = new Person("Аглафья Позднякова", LocalDate.of(2015, 10, 2), Gender.Female);
-
-        julia.addParent(pavel);
-        julia.addParent(uliana);
-        pavel.addKid(julia);
-        semen.addKid(nikifor);
-        larisa.addKid(nikifor);
-        familyTree.setWedding(semen, larisa);
-        familyTree.setWedding(julia, nikifor);
-        nikifor.addKid(fedja);
-        julia.addKid(fedja);
-        nikifor.addKid(petja);
-        julia.addKid(petja);
-        nikifor.addKid(glasha);
-        julia.addKid(glasha);
-
-        familyTree.addPerson(pavel);
-        familyTree.addPerson(uliana);
-        familyTree.addPerson(julia);
-        familyTree.addPerson(semen);
-        familyTree.addPerson(larisa);
-        familyTree.addPerson(nikifor);
-        familyTree.addPerson(fedja);
-        familyTree.addPerson(petja);
-        familyTree.addPerson(glasha);
+        String path = "src/SaveTree.out";
+        FileHandler fileHandler = new FileHandler();
+        FileForSave fileForSave = new FileForSave();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Вы хотите сохранить дерево, описанное в файле 'FileForSave.java', в файл 'SaveTree.out'" +
+                " (введите 1) \n или загрузить данные из файла 'SaveTree.out' в объект  'loadedFamilyTree' (введите 2)");
+        boolean flag = false;
+        while (!flag){
+            String answer = scanner.nextLine();
+            if (answer.equals("1")){
+                System.out.println("Содержимое данного дерева записано в файл: ");
+                System.out.println(fileForSave.giveDataForSave());
+                fileHandler.saveTree(path, fileForSave.giveDataForSave());
+                flag = true;
+            } else if (answer.equals("2")){
+                File requestedFile = new File(path);
+                if(requestedFile.exists() && !requestedFile.isDirectory()){
+                    FamilyTree loadedFamilyTree = fileHandler.loadTree(path);
+                    System.out.println("Содержимое загруженного дерева: ");
+                    System.out.println(loadedFamilyTree);
+                    flag = true;
+                } else {
+                    System.out.println("Пока что такого файла не существует, сначала надо сохранить");
+                }
+            } else {
+                System.out.println("введите 1 или 2");
+            }
+        }
 
 
-        System.out.println(familyTree);
-        familyTree.printSiblings(petja.getId());
+
+
+
     }
+
 }

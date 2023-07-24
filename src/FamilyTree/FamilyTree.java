@@ -2,12 +2,13 @@ package FamilyTree;
 
 import Person.Person;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FamilyTree {
+public class FamilyTree implements Serializable {
     int personId;
     private List<Person> personList;
     public FamilyTree(ArrayList<Person> personList){ this.personList = personList; }
