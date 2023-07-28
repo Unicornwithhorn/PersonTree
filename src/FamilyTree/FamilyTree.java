@@ -1,14 +1,12 @@
 package FamilyTree;
 
 import Person.Person;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import Person.ComparatorAges;
+import Person.ComparatorNames;
 
-public class FamilyTree implements Serializable {
+public class FamilyTree implements Serializable, Iterable<Person> {
     int personId;
     private List<Person> personList;
     public FamilyTree(ArrayList<Person> personList){ this.personList = personList; }
@@ -125,4 +123,17 @@ public class FamilyTree implements Serializable {
     public String showTree(){
         return  personList.toString();
     }
+
+    @Override
+    public Iterator<Person> iterator() {
+        return personList.iterator();
+    }
+
+    public void sortByName(){
+        Collections.sort(personList, new ComparatorNames());
+    }
+    public void sortByAge(){
+        Collections.sort(personList, new ComparatorAges());
+    }
+
 }

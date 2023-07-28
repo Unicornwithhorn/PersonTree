@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Person implements Serializable {
+public class Person implements Serializable, Comparable<Person> {
     private int id;
     private String name;
     private LocalDate birthDate;
@@ -187,6 +187,11 @@ public class Person implements Serializable {
         Person person = (Person) obj;
 //        return person.getId() == this.getId();
         return person.getName() == this.getName();
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return this.name.compareTo(o.name);
     }
 }
 
