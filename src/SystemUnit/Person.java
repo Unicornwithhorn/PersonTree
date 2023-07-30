@@ -1,17 +1,13 @@
-package Person;
+package SystemUnit;
 
 import Gender.Gender;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class Person implements Serializable, Comparable<Person> {
-    private int id;
-    private String name;
+public class Person extends SystemUnit{
     private LocalDate birthDate;
     private LocalDate deathDate;
     private Gender gender;
@@ -21,8 +17,8 @@ public class Person implements Serializable, Comparable<Person> {
 
     public Person(String name, LocalDate birthDate, LocalDate deathDate,
                   Gender gender, Person father, Person mother) {
-        id = -1;
-        this.name = name;
+        super(name);
+
         this.birthDate = birthDate;
         this.deathDate = deathDate;
         this.gender = gender;
@@ -36,6 +32,9 @@ public class Person implements Serializable, Comparable<Person> {
         kids = new ArrayList<Person>();
     }
 
+    public Person(String name) {
+        super(name);
+    }
     public Person(String name, LocalDate birthDate, Gender gender) {
         this(name, birthDate, null, gender, null, null);
     }
@@ -44,21 +43,26 @@ public class Person implements Serializable, Comparable<Person> {
         this(name, birthDate, deathDate, gender, null, null);
     }
 
-    public boolean addKid(Person kid) {
-        if (!kids.contains(kid)) {
-            kids.add(kid);
-            return true;
-        }
-        return false;
+    public void setBirthDate(int year, int month, int day){
+        this.birthDate = LocalDate.of(year, month, day);
     }
 
-    public boolean addParent(Person parent) {
-        if (!parents.contains(parent)) {
-            parents.add(parent);
-            return true;
-        }
-        return false;
-    }
+
+//    public boolean addKid(Person kid) {
+//        if (!kids.contains(kid)) {
+//            kids.add(kid);
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    public boolean addParent(Person parent) {
+//        if (!parents.contains(parent)) {
+//            parents.add(parent);
+//            return true;
+//        }
+//        return false;
+//    }
 
     public Person getFather() {
         for (Person parent : parents) {
@@ -78,8 +82,8 @@ public class Person implements Serializable, Comparable<Person> {
         return null;
     }
 
-    public int getAge(){
-        if (deathDate == null){
+    public int getAge() {
+        if (deathDate == null) {
             return getPeriod(birthDate, LocalDate.now());
         }
         return getPeriod(birthDate, deathDate);
@@ -89,21 +93,62 @@ public class Person implements Serializable, Comparable<Person> {
         return Period.between(birthDate, deathDate).getYears();
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public LocalDate getBirthDate() { return birthDate; }
-    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
-    public LocalDate getDeathDate() { return deathDate; }
-    public void setDeathDate(LocalDate deathDate) { this.deathDate = deathDate; }
-    public Gender getGender() { return gender; }
-    public void setGender(Gender gender) { this.gender = gender; }
-    public List<Person> getKids() { return kids; }
-//    public void setKids() { this.kids = kids; }
-    public List<Person> getParents() { return parents; }
-    public void setSpouse(Person spouse) {this.spouse = spouse; }
-    public Person getSpouse() { return spouse; }
-    public int getId() {return id;}
-    public void  setId(int id){ this.id = id;}
+//    public String getName() {
+//        return name;
+//    }
+
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+
+    public LocalDate getBirthDate(int year, int month, int day) {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public LocalDate getDeathDate() {
+        return deathDate;
+    }
+
+    public void setDeathDate(LocalDate deathDate) {
+        this.deathDate = deathDate;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+//    public List<Person> getKids() {
+//        return kids;
+//    }
+//
+//    //    public void setKids() { this.kids = kids; }
+//    public List<Person> getParents() {
+//        return parents;
+//    }
+
+    public void setSpouse(Person spouse) {
+        this.spouse = spouse;
+    }
+
+    public Person getSpouse() {
+        return spouse;
+    }
+
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     @Override
     public String toString() {
@@ -129,70 +174,69 @@ public class Person implements Serializable, Comparable<Person> {
         return res.toString();
     }
 
-    public String getSpouseInfo(){
+    public String getSpouseInfo() {
         String res = "Супруг(а): ";
-        if (spouse != null){
+        if (spouse != null) {
             res += spouse.getName();
-        }
-        else {
+        } else {
             res += "нет";
         }
         return res;
     }
 
-    public String getMotherInfo(){
+    public String getMotherInfo() {
         Person mother = getMother();
         String res = "Мать: ";
-        if (mother != null){
+        if (mother != null) {
             res += mother.getName();
-        }
-        else {
+        } else {
             res += "неизвестна";
         }
         return res;
     }
 
-    public String getFatherInfo(){
+    public String getFatherInfo() {
         Person father = getFather();
         String res = "Отец: ";
-        if (father != null){
+        if (father != null) {
             res += father.getName();
-        }
-        else {
+        } else {
             res += "неизвестен";
         }
         return res;
     }
 
-    public String getKidsInfo(){
+    public String getKidsInfo() {
         StringBuilder res = new StringBuilder();
         res.append("дети: ");
-        if (kids.size() != 0){
+        if (kids.size() != 0) {
             for (int i = 0; i < kids.size(); i++) {
                 res.append(kids.get(i).getName());
             }
+        } else {
+            res.append("отсутствуют");
         }
-        else {res.append("отсутствуют");}
         return res.toString();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof Person)) {
-            return false;
-        }
-        Person person = (Person) obj;
-//        return person.getId() == this.getId();
-        return person.getName() == this.getName();
-    }
-
-    @Override
-    public int compareTo(Person o) {
-        return this.name.compareTo(o.name);
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//        if (!(obj instanceof Person)) {
+//            return false;
+//        }
+//        Person person = (Person) obj;
+////        return person.getId() == this.getId();
+//        return person.getName() == this.getName();
+//    }
+//
+//    @Override
+//    public int compareTo(Person o) {
+//        return this.name.compareTo(o.name);
+//    }
 }
+
 
 
