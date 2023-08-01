@@ -1,24 +1,53 @@
 package Tree;
 
 import SystemUnit.SystemUnit;
-import java.io.PrintStream;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import SystemUnit.ComparatorNames;
 
-public abstract class System <E extends SystemUnit> implements Serializable, Iterable<E>{
+public abstract class SimpleTree<E extends SystemUnit> implements Serializable, Iterable<E>{
 //    public static PrintStream out;
         String name;
-        int elementId = 0;
-        private ArrayList<E> systemUnitList; //изначально стоял просто list
-        public System(ArrayList<E> systemUnitList){ this.systemUnitList = systemUnitList; }
-        public System(){ this.systemUnitList = new ArrayList<E>();}
+        private int systemId;
+        protected int elementId;//TODO  при перезапуске счётчик не обнулялся или обнуляется?!
+        protected ArrayList<E> systemUnitList; //изначально стоял просто list
+
+        public SimpleTree(ArrayList<E> systemUnitList){ this.systemUnitList = systemUnitList; }
+        public SimpleTree(){ this.systemUnitList = new ArrayList<E>();}
+
         public void setName(String name){
             this.name = name;
         }
+        public String getName(){
+            return this.name;
+    }
 
+        public void setSystemId(int newId){
+            this.systemId = newId;
+        }
+        public int getSystemId(){
+            return this.systemId;
+        }
+
+        public int getId() {
+            return elementId;
+        }
+
+        public void setId(int id) {
+            this.elementId = id;
+        }
+
+        public E getById(int id){
+            for (E systemUnit: systemUnitList){
+                if (systemUnit.getId() == id){
+                    return systemUnit;
+                }
+            }
+            return null;
+        }
 
         public void addSystemUnit(E systemUnit) {
             if (systemUnit == null) {
@@ -31,14 +60,6 @@ public abstract class System <E extends SystemUnit> implements Serializable, Ite
                 addToDescendents(systemUnit);
             }
         }
-        public int getId() {
-        return elementId;
-    }
-
-        public void setId(int id) {
-        this.elementId = id;
-    }
-
         /**метод, добавляющий ко всем потомкам данной единицы системы эту единицу системы как предка
          *
          */
@@ -73,6 +94,16 @@ public abstract class System <E extends SystemUnit> implements Serializable, Ite
                 systemUnitList.remove(systemUnit.getId()-1);
             }
         }
+
+        @Override
+        public String toString() {
+            StringBuilder forPrint = new StringBuilder();
+            for (E systemunit: this.systemUnitList){
+                forPrint.append(systemunit);
+                forPrint.append("\n");
+            }
+            return forPrint.toString();
+        }
 //        public void sortByAge(){
 //            Collections.sort(systemUnitList, new ComparatorAges());
 //        }
@@ -105,14 +136,7 @@ public abstract class System <E extends SystemUnit> implements Serializable, Ite
 //            }
 //        }
 //
-//        public Person getById(int id){
-//            for (Person person: personList){
-//                if (person.getId() == id){
-//                    return person;
-//                }
-//            }
-//            return null;
-//        }
+
 //
 //        public boolean setWedding(Person person1, Person person2){
 //            if(person1.getSpouse() == null && person2.getSpouse() == null){
@@ -138,27 +162,5 @@ public abstract class System <E extends SystemUnit> implements Serializable, Ite
 //            }
 //            return divorse1 || divorse2;
 //        }
-//
-
-//
-//
-//        @Override
-//        public String toString() {
-//            StringBuilder forPrint = new StringBuilder();
-//            for (Person person: this.personList){
-//                forPrint.append(person);
-//                forPrint.append("\n");
-//            }
-//
-//            return forPrint.toString();
-//        }
-//
-////        public String showTree(){
-////            return  personList.toString();
-////        }
-//
-
-//
-//    }
 
 }

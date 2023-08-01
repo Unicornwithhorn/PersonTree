@@ -26,6 +26,31 @@ public class SystemUnit <E extends SystemUnit> implements Serializable, Comparab
         return descendents;
     }
 
+    String showProgenitors(){
+        if (progenitors.size() == 0){
+            return "Отсутствуют";
+        } else{
+            StringBuilder stringBuilder = new StringBuilder();
+            for (SystemUnit progenitor: progenitors){
+                stringBuilder.append(progenitor);
+                stringBuilder.append(", ");
+            }
+            return stringBuilder.toString();
+        }
+    }
+    String showDescendents(){
+        if (descendents.size() == 0){
+            return "Отсутствуют";
+        } else{
+            StringBuilder stringBuilder = new StringBuilder();
+            for (SystemUnit descendent: descendents){
+                stringBuilder.append(descendent);
+                stringBuilder.append(", ");
+            }
+            return stringBuilder.toString();
+        }
+    }
+
     public void addProgenitor(E progenitor) {
         if (!progenitors.contains(progenitor)) {
             progenitors.add(progenitor);

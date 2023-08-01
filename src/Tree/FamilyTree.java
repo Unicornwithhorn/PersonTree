@@ -1,12 +1,52 @@
 package Tree;
-import SystemUnit.SystemUnit;
+import Creater.Technicable;
 import SystemUnit.Person;
+import SystemUnit.SystemUnit;
 
-import java.util.*;
+import java.util.ArrayList;
 
-public class FamilyTree <E extends SystemUnit> extends System {
+public class FamilyTree <E extends SystemUnit> extends SimpleTree implements Technicable {
 
-}
+    public FamilyTree() {
+    }
+
+    public String setWedding() {
+        System.out.println("Введите id первого молодожёна");
+        int choice1 = correctInput(0, elementId);
+        Person person1 = (Person) getById(choice1);
+        System.out.println("Введите id второго молодожёна");
+        int choice2 = correctInput(0, elementId);
+        Person person2 = (Person) getById(choice2);
+        if (person1.getSpouse() == person2) {
+            return "Эти люди уже женаты!";
+        } else if (person1.getSpouse() != null) {
+            return "Увы! " + person1.getName() + " уже находится в браке! ";
+        } else if (person2.getSpouse() != null) {
+            return "Увы! " + person2.getName() + " уже находится в браке! ";
+        } else {
+            person1.setSpouse(person2);
+            person2.setSpouse(person1);
+            return "Счастья молодым! Поздравляем следующих людей: " + person1.getName() + " и " + person2.getName();
+        }
+    }
+    public void setDivorce(){
+        System.out.println("Введите id первого разводящегося");
+        int choice1 = correctInput(0, elementId);
+        Person person1 = (Person) getById(choice1);
+        System.out.println("Введите id второго разводящегося");
+        int choice2 = correctInput(0, elementId);
+        Person person2 = (Person) getById(choice2);
+        if (person1.getSpouse().equals(person2)){
+            person1.setSpouse(null);
+            person2.setSpouse(null);
+            System.out.println("Развод успешно завершён. " + person1.getName() + " и " + person2.getName() + " свободны.");
+        }else {
+            System.out.println("Эти люди и не были в браке");
+        }
+
+
+    }
+
 //    public FamilyTree(ArrayList<Person> personList){
 //        super(ArrayList<E>);
 //        this.personList = personList;
@@ -42,39 +82,10 @@ public class FamilyTree <E extends SystemUnit> extends System {
 //        }
 //    }
 
-//    public Person getById(int id){
-//        for (Person person: personList){
-//            if (person.getId() == id){
-//                return person;
-//            }
-//        }
-//        return null;
-//    }
 
-//    public boolean setWedding(Person person1, Person person2){
-//        if(person1.getSpouse() == null && person2.getSpouse() == null){
-//            person1.setSpouse(person2);
-//            person2.setSpouse(person1);
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
-//    }
+
 //
-//    public boolean setDivorce(Person person1, Person person2){
-//        boolean divorse1 = false;
-//        boolean divorse2 = false;
-//        if (person1.getSpouse().equals(person2)){
-//            person1.setSpouse(null);
-//            divorse1 = true;
-//        }
-//        if (person1.getSpouse().equals(person2)) {
-//            person1.setSpouse(null);
-//            divorse2 = true;
-//        }
-//        return divorse1 || divorse2;
-//    }
+
 //
 ////    public boolean remove (Person person){
 ////        if (personList.contains(person)){
@@ -112,4 +123,4 @@ public class FamilyTree <E extends SystemUnit> extends System {
 ////        Collections.sort(systemUnitList, new ComparatorAges());
 ////    }
 //
-//}
+}

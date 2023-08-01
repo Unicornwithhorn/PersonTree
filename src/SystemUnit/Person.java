@@ -5,6 +5,7 @@ import Gender.Gender;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Person extends SystemUnit{
@@ -46,7 +47,9 @@ public class Person extends SystemUnit{
     public void setBirthDate(int year, int month, int day){
         this.birthDate = LocalDate.of(year, month, day);
     }
-
+    public void setDeathDate(int year, int month, int day) {
+        this.deathDate = LocalDate.of(year, month, day);
+    }
 
 //    public boolean addKid(Person kid) {
 //        if (!kids.contains(kid)) {
@@ -65,6 +68,9 @@ public class Person extends SystemUnit{
 //    }
 
     public Person getFather() {
+        if (parents == null) {
+            return null;
+        }
         for (Person parent : parents) {
             if (parent.getGender() == Gender.Male) {
                 return parent;
@@ -74,6 +80,9 @@ public class Person extends SystemUnit{
     }
 
     public Person getMother() {
+        if (parents == null) {
+            return null;
+        }
         for (Person parent : parents) {
             if (parent.getGender() == Gender.Female) {
                 return parent;
@@ -101,21 +110,18 @@ public class Person extends SystemUnit{
 //        this.name = name;
 //    }
 
-    public LocalDate getBirthDate(int year, int month, int day) {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
+//    public void setBirthDate(LocalDate birthDate) {
+//        this.birthDate = birthDate;
+//    }
 
     public LocalDate getDeathDate() {
         return deathDate;
     }
 
-    public void setDeathDate(LocalDate deathDate) {
-        this.deathDate = deathDate;
-    }
 
     public Gender getGender() {
         return gender;
@@ -165,12 +171,10 @@ public class Person extends SystemUnit{
         res.append(getAge());
         res.append(", ");
         res.append(getSpouseInfo());
+        res.append(", Родители - ");
+        res.append(showProgenitors());
         res.append(", ");
-        res.append(getMotherInfo());
-        res.append(", ");
-        res.append(getFatherInfo());
-        res.append(", ");
-        res.append(getKidsInfo());
+        res.append(showDescendents());
         return res.toString();
     }
 
@@ -184,27 +188,27 @@ public class Person extends SystemUnit{
         return res;
     }
 
-    public String getMotherInfo() {
-        Person mother = getMother();
-        String res = "Мать: ";
-        if (mother != null) {
-            res += mother.getName();
-        } else {
-            res += "неизвестна";
-        }
-        return res;
-    }
-
-    public String getFatherInfo() {
-        Person father = getFather();
-        String res = "Отец: ";
-        if (father != null) {
-            res += father.getName();
-        } else {
-            res += "неизвестен";
-        }
-        return res;
-    }
+//    public String getMotherInfo() {
+//        Person mother = getMother();
+//        String res = "Мать: ";
+//        if (mother != null) {
+//            res += mother.getName();
+//        } else {
+//            res += "неизвестна";
+//        }
+//        return res;
+//    }
+//
+//    public String getFatherInfo() {
+//        Person father = getFather();
+//        String res = "Отец: ";
+//        if (father != null) {
+//            res += father.getName();
+//        } else {
+//            res += "неизвестен";
+//        }
+//        return res;
+//    }
 
     public String getKidsInfo() {
         StringBuilder res = new StringBuilder();
@@ -218,6 +222,8 @@ public class Person extends SystemUnit{
         }
         return res.toString();
     }
+
+
 
 //    @Override
 //    public boolean equals(Object obj) {
