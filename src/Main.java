@@ -1,7 +1,9 @@
 import Creater.TreeCreater;
+import View.ConsoleUI;
+
 public class Main {
     public static void main(String[] args) {
-        TreeCreater treeCreater = new TreeCreater();
-        treeCreater.start();
+        ConsoleUI consoleUI = new ConsoleUI();
+        consoleUI.start();
     }
 }

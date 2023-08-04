@@ -1,9 +1,7 @@
 package Tree;
-import Creater.Technicable;
+import View.Technicable;
 import SystemUnit.Person;
 import SystemUnit.SystemUnit;
-
-import java.util.ArrayList;
 
 public class FamilyTree <E extends SystemUnit> extends SimpleTree implements Technicable {
 

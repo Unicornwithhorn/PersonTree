@@ -1,4 +1,4 @@
-package Creater;
+package View;
 
 import FileHandler.FileHandler;
 import Tree.FamilyTree;
