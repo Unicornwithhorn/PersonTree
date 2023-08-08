@@ -5,7 +5,7 @@ import command.Command;
 
 public class ExitProgram extends Command {
     public ExitProgram(ConsoleUI consoleUI) {
-        super(consoleUI, "Создать новое дерево");
+        super(consoleUI, "Выйти из программы");
     }
     @Override
     public void useThisMethod() {

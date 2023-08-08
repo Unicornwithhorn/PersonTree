@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import SystemUnit.ComparatorNames;
+import FileHandler.FileHandler;
 
 public abstract class SimpleTree<E extends SystemUnit> implements Serializable, Iterable<E>{
 //    public static PrintStream out;
         String name;
-        private int systemId;
-        protected int elementId;//TODO  при перезапуске счётчик не обнулялся или обнуляется?!
+        protected int systemId;
+        protected int elementId;
         protected ArrayList<E> systemUnitList; //изначально стоял просто list
 
         public SimpleTree(ArrayList<E> systemUnitList){ this.systemUnitList = systemUnitList; }
@@ -98,8 +99,10 @@ public abstract class SimpleTree<E extends SystemUnit> implements Serializable, 
         @Override
         public String toString() {
             StringBuilder forPrint = new StringBuilder();
-            for (E systemunit: this.systemUnitList){
-                forPrint.append(systemunit);
+            for (int i = 0; i < systemUnitList.size(); i++) {
+                forPrint.append(i+1);
+                forPrint.append(") ");
+                forPrint.append(systemUnitList.get(i));
                 forPrint.append("\n");
             }
             return forPrint.toString();

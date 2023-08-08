@@ -1,4 +1,5 @@
 package Tree;
+import FileHandler.FileHandler;
 import View.Technicable;
 import SystemUnit.Person;
 import SystemUnit.SystemUnit;
@@ -6,40 +7,41 @@ import SystemUnit.SystemUnit;
 public class FamilyTree <E extends SystemUnit> extends SimpleTree implements Technicable {
 
     public FamilyTree() {
+
     }
 
-    public String setWedding() {
-        System.out.println("Введите id первого молодожёна");
-        int choice1 = correctInput(0, elementId);
+    public int setWedding(int choice1, int choice2) {
+        FileHandler fileHandler = new FileHandler();
         Person person1 = (Person) getById(choice1);
-        System.out.println("Введите id второго молодожёна");
-        int choice2 = correctInput(0, elementId);
         Person person2 = (Person) getById(choice2);
         if (person1.getSpouse() == person2) {
-            return "Эти люди уже женаты!";
+            return 1;//"Эти люди уже женаты!";
         } else if (person1.getSpouse() != null) {
-            return "Увы! " + person1.getName() + " уже находится в браке! ";
+            return 2; //"Увы! " + person1.getName() + " уже находится в браке! ";
         } else if (person2.getSpouse() != null) {
-            return "Увы! " + person2.getName() + " уже находится в браке! ";
+            return 3; //"Увы! " + person2.getName() + " уже находится в браке! ";
         } else {
             person1.setSpouse(person2);
             person2.setSpouse(person1);
-            return "Счастья молодым! Поздравляем следующих людей: " + person1.getName() + " и " + person2.getName();
+            String path = "src/SaveFiles/" + systemId + ".out";
+            fileHandler.saveObject(path, this);
+            return 4; //"Счастья молодым! Поздравляем следующих людей: " + person1.getName() + " и " + person2.getName();
         }
     }
-    public void setDivorce(){
-        System.out.println("Введите id первого разводящегося");
-        int choice1 = correctInput(0, elementId);
+    public boolean setDivorce(int choice1, int choice2){
+        FileHandler fileHandler = new FileHandler();
         Person person1 = (Person) getById(choice1);
-        System.out.println("Введите id второго разводящегося");
-        int choice2 = correctInput(0, elementId);
         Person person2 = (Person) getById(choice2);
         if (person1.getSpouse().equals(person2)){
             person1.setSpouse(null);
             person2.setSpouse(null);
-            System.out.println("Развод успешно завершён. " + person1.getName() + " и " + person2.getName() + " свободны.");
+            String path = "src/SaveFiles/" + systemId + ".out";
+            fileHandler.saveObject(path, this);
+            return true;
+            //"Развод успешно завершён. " + person1.getName() + " и " + person2.getName() + " свободны."
         }else {
-            System.out.println("Эти люди и не были в браке");
+            return false;
+            //"Эти люди и не были в браке"
         }
 
 

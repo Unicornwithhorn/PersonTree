@@ -11,11 +11,11 @@ public abstract class Menu implements Technicable {
     public Menu() {
         this.commandList = new ArrayList<Command>();
     }
-    public boolean emptyTreeProtection() {
+    public boolean emptyProtection() { //только для вывода списка деревьев, адо переписывать
         if (commandList.size() != 0) {
             return true;
         } else {
-            System.out.println("Нет ни одного сохранённого дерева!");
+            System.out.println("Список пуст!");
             return false;
         }
     }
@@ -30,14 +30,19 @@ public abstract class Menu implements Technicable {
             stringBuilder.append("  ");
             stringBuilder.append(i);
             stringBuilder.append(") ");
-            stringBuilder.append(commandList.get(i).getDescription());
+            stringBuilder.append(commandList.get(i-1).getDescription());
             stringBuilder.append("\n");
         }
+        System.out.println(stringBuilder.toString());
     }
     public void menu(){
-        if (emptyTreeProtection()){
+        if (emptyProtection()){
             printMenu();
             choiceMenu();
         }
+    }
+
+    public List<Command> getCommandList(){
+        return commandList;
     }
 }

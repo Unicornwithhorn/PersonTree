@@ -164,11 +164,23 @@ public class Person extends SystemUnit{
         res.append(", name ");
         res.append(name);
         res.append(", birthDate ");
-        res.append(birthDate);
+        try {
+            res.append(birthDate);
+        } catch (Exception e){
+            res.append("неизвестна");
+        }
         res.append(", deathDate ");
-        res.append(deathDate);
-        res.append(", age");
-        res.append(getAge());
+        try{
+            res.append(deathDate);
+        } catch (Exception e){
+            res.append("неизвестна");
+        }
+        res.append(", age ");
+        try {
+            res.append(getAge());
+        } catch (Exception e){
+            res.append("неизвестен");
+        }
         res.append(", ");
         res.append(getSpouseInfo());
         res.append(", Родители - ");
