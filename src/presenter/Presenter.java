@@ -1,8 +1,10 @@
 package presenter;
 
+import Gender.Gender;
 import model.TreeService;
 import view.ConsoleUI;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Presenter {
@@ -35,6 +37,19 @@ public class Presenter {
     public String getNameUnit(int numberOfTree, int numberOfUnit){ return treeService.getNameUnit(numberOfTree, numberOfUnit);};
     public boolean setDivorce(int numberTree, int choice1, int choice2){
         return treeService.setDivorce(numberTree, choice1, choice2);
+    }
+
+    public void changeBirthDate(int numberOfTree, int numberOfPerson, LocalDate newBirthDate) {
+        treeService.changeBirthDate(numberOfTree, numberOfPerson, newBirthDate);
+    }
+    public void changeDeathDate(int numberOfTree, int numberOfPerson, LocalDate newDeathDate) {
+        treeService.changeDeathDate(numberOfTree, numberOfPerson, newDeathDate);
+    }
+    public void changeGender(int numberOfTree, int numberOfPerson, int genderChoice) {
+        treeService.changeGender(numberOfTree, numberOfPerson, genderChoice);
+    }
+    public void changeName(int numberOfTree, int numberOfPerson, String personName){
+        treeService.changeName(numberOfTree, numberOfPerson, personName);
     }
 
 

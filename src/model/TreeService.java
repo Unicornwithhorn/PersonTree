@@ -17,6 +17,8 @@ import systemUnit.Person;
 import tree.FamilyTree;
 import FileHandler.FileHandler;
 import tree.SimpleTree;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TreeService implements Technicable {
@@ -58,10 +60,14 @@ public class TreeService implements Technicable {
 
     public ArrayList<String> showExistingTrees() {
         FileHandler fileHandler = new FileHandler();
-        int maxIndex = (int) fileHandler.loadObject("src/saveFiles/numberOfCurrentTrees.out");
         ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 1; i <= maxIndex; i++) {
-            arrayList.add(pairNameTypeTreeCreater(loadTree(i)));
+        try {
+            int maxIndex = (int) fileHandler.loadObject("src/saveFiles/numberOfCurrentTrees.out");
+            for (int i = 1; i <= maxIndex; i++) {
+                arrayList.add(pairNameTypeTreeCreater(loadTree(i)));
+            }
+        }catch (Exception e){
+            return arrayList;
         }
         return arrayList;
     }
@@ -73,8 +79,8 @@ public class TreeService implements Technicable {
     public void createNewTree(String name) {
         FamilyTree familyTree = new FamilyTree();
         FileHandler fileHandler = new FileHandler();
-        int newId = (int) fileHandler.loadObject("src/saveFiles/numberOfCurrentTrees.out") + 1;
-//        int newId = 1;
+//        int newId = (int) fileHandler.loadObject("src/saveFiles/numberOfCurrentTrees.out") + 1;
+        int newId = 1;
         familyTree.setSystemId(newId);
         fileHandler.saveObject("src/saveFiles/numberOfCurrentTrees.out", newId);
         familyTree.setName(name);
@@ -184,7 +190,40 @@ public class TreeService implements Technicable {
     public String viewTree(int numberTree) {
         return loadTree(numberTree).toString();
     }
+
+
+    public void changeBirthDate(int numberOfTree, int numberOfPerson, LocalDate newBirthDate) {
+        FamilyTree familyTree = (FamilyTree) loadTree(numberOfTree);
+        Person currentPerson = (Person)(familyTree).getById(numberOfPerson);
+        currentPerson.setBirthDate(newBirthDate);
+        saveTree(familyTree);
+    }
+
+    public void changeDeathDate(int numberOfTree, int numberOfPerson, LocalDate newDeathDate) {
+        FamilyTree familyTree = (FamilyTree) loadTree(numberOfTree);
+        Person currentPerson = (Person)(familyTree).getById(numberOfPerson);
+        currentPerson.setDeathDate(newDeathDate);
+        saveTree(familyTree);
+    }
+
+    public void changeGender(int numberOfTree, int numberOfPerson, int genderChoice) {
+        FamilyTree familyTree = (FamilyTree) loadTree(numberOfTree);
+        Person currentPerson = (Person)(familyTree).getById(numberOfPerson);
+        switch (genderChoice) {
+            case 1 -> currentPerson.setGender(Gender.Male);
+            case 2 -> currentPerson.setGender(Gender.Female);
+        }
+        saveTree(familyTree);
+    }
+    public void changeName(int numberOfTree, int numberOfPerson, String personName){
+        FamilyTree familyTree = (FamilyTree) loadTree(numberOfTree);
+        Person currentPerson = (Person)(familyTree).getById(numberOfPerson);
+        currentPerson.setName(personName);
+        saveTree(familyTree);
+    }
+
 }
+
 
 
 //    public void sortByName(){

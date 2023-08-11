@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import command.mainMenuCommands.CreateNewTree;
 import command.mainMenuCommands.ExitProgram;

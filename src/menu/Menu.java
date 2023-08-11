@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import command.Command;
 import view.Technicable;

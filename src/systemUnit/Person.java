@@ -46,8 +46,14 @@ public class Person extends SystemUnit{
     public void setBirthDate(int year, int month, int day){
         this.birthDate = LocalDate.of(year, month, day);
     }
+    public void setBirthDate(LocalDate localDate){
+        this.birthDate = localDate;
+    }
     public void setDeathDate(int year, int month, int day) {
         this.deathDate = LocalDate.of(year, month, day);
+    }
+    public void setDeathDate(LocalDate localDate) {
+        this.deathDate = localDate;
     }
 
 //    public boolean addKid(Person kid) {
@@ -177,6 +183,13 @@ public class Person extends SystemUnit{
         res.append(", age ");
         try {
             res.append(getAge());
+        } catch (Exception e){
+            res.append("неизвестен");
+        }
+        res.append(", ");
+        res.append("gender ");
+        try {
+            res.append(getGender());
         } catch (Exception e){
             res.append("неизвестен");
         }

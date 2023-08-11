@@ -66,6 +66,10 @@ public class SystemUnit <E extends SystemUnit> implements Serializable, Comparab
     public String getName(){
         return this.name;
     }
+
+    public void setName(String name){
+        this.name = name;
+    }
     public int getId() {
         return id;
     }

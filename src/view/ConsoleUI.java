@@ -1,10 +1,14 @@
 package view;
-import Menu.MainMenu;
-import Menu.WorkWithCurrentTreeMenu;
+import Gender.Gender;
+import menu.MainMenu;
+import menu.WorkWithCurrentTreeMenu;
+import menu.ChangePersonMenu;
 import presenter.Presenter;
 
+import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ConsoleUI implements View, Technicable{
@@ -40,18 +44,21 @@ public class ConsoleUI implements View, Technicable{
 //        presenter.choiceTree(arrayList);
 //    }
     public void showExistingTrees(){
-//        readText(1);//Выберите интересующий вас пункт:
         ArrayList<String> arrayList = presenter.showExistingTrees();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Выберите дерево из списка\n");
-        for (int i = 0; i < arrayList.size(); i++) {
-            stringBuilder.append(i+1);
-            stringBuilder.append(") ");
-            stringBuilder.append(arrayList.get(i));
-            stringBuilder.append("\n");
+        if (arrayList.size() == 0){
+            System.out.println("Список деревьев пустой");
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Выберите дерево из списка\n");
+            for (int i = 0; i < arrayList.size(); i++) {
+                stringBuilder.append(i + 1);
+                stringBuilder.append(") ");
+                stringBuilder.append(arrayList.get(i));
+                stringBuilder.append("\n");
+            }
+            System.out.println(stringBuilder.toString());
+            choiceTree(correctInput(arrayList.size()));
         }
-        System.out.println(stringBuilder.toString());
-        choiceTree(correctInput(arrayList.size()));
     }
     public void choiceTree(int choice){//TODO А если не люди, то не FAMILYTREE!
         WorkWithCurrentTreeMenu workWithCurrentTreeMenu = new WorkWithCurrentTreeMenu(this, choice);
@@ -65,6 +72,22 @@ public class ConsoleUI implements View, Technicable{
         String treeName = scanner.nextLine();
         presenter.createNewTree(treeName);
         System.out.println(readText(31) + " " + treeName);
+    }
+
+    public LocalDate dateInput(String request){
+        System.out.println(request);
+        System.out.println(readText(25));
+        int year = correctInput(0, Year.now().getValue());
+        int month = 0;
+        int day = 0;
+        if (year!=0) {
+            System.out.println(readText(26));
+            month = correctInput(12);
+            System.out.println(readText(27));
+            day = correctInput(31);//TODO во всех месяцах 31 день, с 31 февраля получается ошибка =(
+            return LocalDate.of(year, month, day);
+        }
+        return null;
     }
 
     public void addNewPerson(int numberTree){
@@ -97,18 +120,47 @@ public class ConsoleUI implements View, Technicable{
     }
 
     public void viewTree(int numberTree){ System.out.println(presenter.viewTree(numberTree)); }
-    public void changePersonData(int numberTree){
+
+    public void changePersonData(int numberOfTree){
+        int numberPerson = choicePersonFromTree(numberOfTree,"Выберите интересующего вас человека");
+        ChangePersonMenu changePersonMenu = new ChangePersonMenu(this, numberOfTree, numberPerson);
+        changePersonMenu.menu();
+    }
+
+    public void changeBirthDate(int numberOfTree, int numberOfPerson) {
+        LocalDate newBirthDate = dateInput("Введите новые данные даты рождения");
+        presenter.changeBirthDate(numberOfTree, numberOfPerson, newBirthDate);
+    }
+
+    public void changeDeathDate(int numberOfTree, int numberOfPerson) {
+        LocalDate newDeathDate = dateInput("Введите новые данные даты смерти");
+        presenter.changeDeathDate(numberOfTree, numberOfPerson, newDeathDate);
+    }
+
+    public void changeGender(int numberOfTree, int numberOfPerson) {
+        int genderChoice = menuStep(35,37);
+        presenter.changeGender(numberOfTree, numberOfPerson, genderChoice);
+    }
+    public void changeName(int numberOfTree, int numberOfPerson){
+        System.out.println(readText(24));
+        String personName =  scanner.nextLine();
+        presenter.changeName(numberOfTree, numberOfPerson, personName);
+    }
+
+
+
+    public int choicePersonFromTree(int numberOfTree, String message){
+        System.out.println(presenter.viewTree(numberOfTree));
+        int numberOfUnits = presenter.getNumberUnits(numberOfTree);
+        System.out.println(message);
+        return correctInput(0, numberOfUnits);
     }
 
     public void setDivorce(int numberOfTree){
         boolean flag = true;
         while (flag) {
-            System.out.println(presenter.viewTree(numberOfTree));
-            int numberOfUnits = presenter.getNumberUnits(numberOfTree);
-            System.out.println("Введите id первого разводящегося");
-            int choice1 = correctInput(0, numberOfUnits);
-            System.out.println("Введите id второго разводящегося");
-            int choice2 = correctInput(0, numberOfUnits);
+            int choice1 = choicePersonFromTree(numberOfTree, "Введите id первого разводящегося");
+            int choice2 = choicePersonFromTree(numberOfTree, "Введите id второго разводящегося");
             boolean result = presenter.setDivorce(numberOfTree, choice1, choice2);
             if (result) {
                 System.out.println("Развод успешно завершён. " + presenter.getNameUnit(numberOfTree, choice1) + " и " +
@@ -168,6 +220,8 @@ public class ConsoleUI implements View, Technicable{
     public void printAnswer(String text) {
         System.out.println(text);
     }
+
+
 
 //    private void showExistingTrees(){
 //        FileHandler fileHandler = new FileHandler();

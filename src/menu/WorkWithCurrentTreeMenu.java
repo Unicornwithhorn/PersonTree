@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import view.ConsoleUI;
 import command.actionsWithTree.AddNewPerson;
