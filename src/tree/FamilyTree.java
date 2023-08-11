@@ -1,10 +1,10 @@
-package Tree;
+package tree;
 import FileHandler.FileHandler;
-import View.Technicable;
-import SystemUnit.Person;
-import SystemUnit.SystemUnit;
+import view.Technicable;
+import systemUnit.Person;
+import systemUnit.SystemUnit;
 
-public class FamilyTree <E extends SystemUnit> extends SimpleTree implements Technicable {
+public class FamilyTree extends SimpleTree implements Technicable {
 
     public FamilyTree() {
 

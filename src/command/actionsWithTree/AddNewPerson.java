@@ -1,15 +1,13 @@
 package command.actionsWithTree;
 
-import Tree.FamilyTree;
-import View.ConsoleUI;
-import command.Command;
+import view.ConsoleUI;
 
 public class AddNewPerson extends ActionWithTree {
-    public AddNewPerson(ConsoleUI consoleUI, FamilyTree familyTree) {
-        super(consoleUI, "Добавить нового человека", familyTree);
+    public AddNewPerson(ConsoleUI consoleUI, int numberTree) {
+        super(consoleUI, "Добавить нового человека", numberTree);
     }
     @Override
     public void useThisMethod() {
-        getConsoleUI().addNewPerson(familyTree);
+        getConsoleUI().addNewPerson(numberTree);
     }
 }

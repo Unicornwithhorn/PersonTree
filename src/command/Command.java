@@ -1,6 +1,6 @@
 package command;
 
-import View.ConsoleUI;
+import view.ConsoleUI;
 
 public abstract class Command {
     private String description;

@@ -1,10 +1,10 @@
 package FileHandler;
 
-import Tree.SimpleTree;
+//import tree.SimpleTree;
 
 import java.io.*;
 
-public class FileHandler <T extends SimpleTree> implements Writeable{
+public class FileHandler implements Writeable{
     @Override
     public void saveObject(String path, Object object) {
         ObjectOutputStream objectOutputStream = null;

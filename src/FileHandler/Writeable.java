@@ -1,7 +1,5 @@
 package FileHandler;
 
-import Tree.SimpleTree;
-
 public interface Writeable /*<T extends System>*/{
 
 //    void saveTree(String path, T tree);

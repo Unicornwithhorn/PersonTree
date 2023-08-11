@@ -1,11 +1,10 @@
-package SystemUnit;
+package systemUnit;
 
 import Gender.Gender;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Person extends SystemUnit{

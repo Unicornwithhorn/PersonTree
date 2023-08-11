@@ -1,15 +1,14 @@
-package Tree;
+package tree;
 
-import SystemUnit.SystemUnit;
+import systemUnit.SystemUnit;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import SystemUnit.ComparatorNames;
-import FileHandler.FileHandler;
+import systemUnit.ComparatorNames;
 
-public abstract class SimpleTree<E extends SystemUnit> implements Serializable, Iterable<E>{
+public abstract class SimpleTree<E extends SystemUnit> implements Serializable, Iterable<E>, SystemIdCount {
 //    public static PrintStream out;
         String name;
         protected int systemId;

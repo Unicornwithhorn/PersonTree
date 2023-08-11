@@ -1,6 +1,6 @@
 package command.mainMenuCommands;
 
-import View.ConsoleUI;
+import view.ConsoleUI;
 import command.Command;
 
 public class CreateNewTree extends Command {

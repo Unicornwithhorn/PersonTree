@@ -1,4 +1,4 @@
-package SystemUnit;
+package systemUnit;
 
 import java.util.Comparator;
 

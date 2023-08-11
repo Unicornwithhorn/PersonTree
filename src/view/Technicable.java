@@ -1,7 +1,4 @@
-package View;
-
-import FileHandler.FileHandler;
-import Tree.FamilyTree;
+package view;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +12,7 @@ public interface Technicable {
         String line;
         Files Files = null;
         try {
-            line = java.nio.file.Files.readAllLines(Paths.get("src/Creater/workText.txt")).get(lineNumber-1);
+            line = java.nio.file.Files.readAllLines(Paths.get("src/model/workText.txt")).get(lineNumber-1);
             return line;
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,16 +1,14 @@
 package command.actionsWithTree;
 
-import Tree.FamilyTree;
-import View.ConsoleUI;
-import command.Command;
+import view.ConsoleUI;
 
 public class ChangePersonData extends ActionWithTree {
-    public ChangePersonData(ConsoleUI consoleUI, FamilyTree familyTree) {
-        super(consoleUI, "Изменить данные человека", familyTree);
+    public ChangePersonData(ConsoleUI consoleUI, int numberTree) {
+        super(consoleUI, "Изменить данные человека", numberTree);
     }
 
     @Override
     public void useThisMethod() {
-        getConsoleUI().changePersonData(familyTree);
+        getConsoleUI().changePersonData(numberTree);
     }
 }

@@ -1,7 +1,6 @@
 package command.actionsWithTree;
 
-import Tree.FamilyTree;
-import View.ConsoleUI;
+import view.ConsoleUI;
 import command.Command;
 
 public class ExitToMainMenu extends Command {

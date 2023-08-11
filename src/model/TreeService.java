@@ -8,22 +8,21 @@
 пакеты с маленькой буквы
 замечания в ответах на дз
 */
-package Creater;
+package model;
 
-import View.Technicable;
+import tree.SystemIdCount;
+import view.Technicable;
 import Gender.Gender;
-import SystemUnit.Person;
-import Tree.FamilyTree;
+import systemUnit.Person;
+import tree.FamilyTree;
 import FileHandler.FileHandler;
-import Tree.SimpleTree;
-import presenter.Presenter;
+import tree.SimpleTree;
 import java.util.ArrayList;
 
 public class TreeService implements Technicable {
-    Presenter presenter;
-
-    public TreeService(Presenter presenter) {
-        this.presenter = presenter;
+    FileHandler fileHandler;
+    public TreeService() {
+        this.fileHandler = new FileHandler();
     }
     //    private void showExistingTrees(){
 //        FileHandler fileHandler = new FileHandler();
@@ -56,36 +55,38 @@ public class TreeService implements Technicable {
 //        }
 //    }
 
-    public ArrayList<SimpleTree> showExistingTrees() {
+
+    public ArrayList<String> showExistingTrees() {
         FileHandler fileHandler = new FileHandler();
-        int maxIndex = (int) fileHandler.loadObject("src/SaveFiles/numberOfCurrentTrees.out");
-        ArrayList<SimpleTree> arrayList = new ArrayList<>();
+        int maxIndex = (int) fileHandler.loadObject("src/saveFiles/numberOfCurrentTrees.out");
+        ArrayList<String> arrayList = new ArrayList<>();
         for (int i = 1; i <= maxIndex; i++) {
-            SimpleTree system = (SimpleTree) fileHandler.loadObject("src/SaveFiles/" + i + ".out");
-            arrayList.add(system);
+            arrayList.add(pairNameTypeTreeCreater(loadTree(i)));
         }
         return arrayList;
+    }
+
+    private String pairNameTypeTreeCreater(SimpleTree simpleTree){
+        return simpleTree.getName() + " " + simpleTree.getClass();
     }
 
     public void createNewTree(String name) {
         FamilyTree familyTree = new FamilyTree();
         FileHandler fileHandler = new FileHandler();
-        int newId = (int) fileHandler.loadObject("src/SaveFiles/numberOfCurrentTrees.out") + 1;
+        int newId = (int) fileHandler.loadObject("src/saveFiles/numberOfCurrentTrees.out") + 1;
 //        int newId = 1;
         familyTree.setSystemId(newId);
-        fileHandler.saveObject("src/SaveFiles/numberOfCurrentTrees.out", newId);
+        fileHandler.saveObject("src/saveFiles/numberOfCurrentTrees.out", newId);
         familyTree.setName(name);
-        System.out.println(readText(31) + " " + name);
-        String path = "src/SaveFiles/" + newId + ".out";
-        fileHandler.saveObject(path, familyTree);
+        saveTree(familyTree);
     }
 
-    public int setWedding(FamilyTree familyTree, int choice1, int choice2) {
-        return familyTree.setWedding(choice1, choice2);
+    public int setWedding(int numberTree, int choice1, int choice2) {
+        return ((FamilyTree) loadTree(numberTree)).setWedding(choice1, choice2);
     }
 
-    public boolean setDivorce(FamilyTree familyTree, int choice1, int choice2) {
-        return familyTree.setDivorce(choice1, choice2);
+    public boolean setDivorce(int numberTree, int choice1, int choice2) {
+        return ((FamilyTree) loadTree(numberTree)).setDivorce(choice1, choice2);
     }
 
 //    public void createNewTreeOfPerson(){
@@ -149,7 +150,20 @@ public class TreeService implements Technicable {
 //            workWithFamilyTree(familyTree);
 //        }
 //    }
-    public void createNewPerson(FamilyTree familyTree, String personName, int birthYear, int birthMonth, int birthDay,
+    public SimpleTree loadTree(int numberTree){
+        String path = "src/saveFiles/" + numberTree + ".out";
+        return (SimpleTree) fileHandler.loadObject(path);
+    }
+    public <E extends SystemIdCount> void saveTree (E tree){
+        int filename = tree.getSystemId();
+        String path = "src/saveFiles/" + filename + ".out";
+        fileHandler.saveObject(path, tree);
+    }
+
+    public int getNumberUnits(int numberTree){ return loadTree(numberTree).getId();}
+
+    public String getNameUnit(int numberOfTree, int numberOfUnit){return (loadTree(numberOfTree).getById(numberOfUnit)).getName();}
+    public void createNewPerson(int numberTree, String personName, int birthYear, int birthMonth, int birthDay,
                                 int deathYear, int deathMonth, int deathDay, int genderChoice) {
         Person person = new Person(personName);
         if (birthYear != 0) {
@@ -162,16 +176,13 @@ public class TreeService implements Technicable {
             case 1 -> person.setGender(Gender.Male);
             case 2 -> person.setGender(Gender.Female);
         }
+        FamilyTree familyTree = (FamilyTree) loadTree(numberTree);
         familyTree.addSystemUnit(person);
-        FileHandler fileHandler = new FileHandler();
-        int filename = familyTree.getSystemId();
-        String path = "src/SaveFiles/" + filename + ".out";
-        fileHandler.saveObject(path, familyTree);
-        System.out.println(readText(32) + person.getName());
+        saveTree(familyTree);
     }
 
-    public void viewTree(FamilyTree familyTree) {
-        System.out.println(familyTree);
+    public String viewTree(int numberTree) {
+        return loadTree(numberTree).toString();
     }
 }
 

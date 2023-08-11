@@ -3,7 +3,7 @@ package Menu;
 import command.mainMenuCommands.CreateNewTree;
 import command.mainMenuCommands.ExitProgram;
 import command.mainMenuCommands.ShowExistingTrees;
-import View.ConsoleUI;
+import view.ConsoleUI;
 
 public class MainMenu extends Menu{
     public MainMenu(ConsoleUI consoleUI) {

@@ -1,15 +1,13 @@
 package command.actionsWithTree;
 
-import Tree.FamilyTree;
-import View.ConsoleUI;
-import command.Command;
+import view.ConsoleUI;
 
 public class ViewTree extends ActionWithTree {
-    public ViewTree(ConsoleUI consoleUI, FamilyTree familyTree) {
-        super(consoleUI, "Показать всех членов данного дерева", familyTree);
+    public ViewTree(ConsoleUI consoleUI, int numberTree) {
+        super(consoleUI, "Показать всех членов данного дерева", numberTree);
     }
     @Override
     public void useThisMethod() {
-        getConsoleUI().viewTree(familyTree);
+        getConsoleUI().viewTree(numberTree);
     }
 }

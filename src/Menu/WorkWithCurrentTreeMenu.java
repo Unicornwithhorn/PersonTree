@@ -1,7 +1,6 @@
 package Menu;
 
-import Tree.FamilyTree;
-import View.ConsoleUI;
+import view.ConsoleUI;
 import command.actionsWithTree.AddNewPerson;
 import command.actionsWithTree.ChangePersonData;
 import command.actionsWithTree.SetWedding;
@@ -11,19 +10,14 @@ import command.actionsWithTree.ExitToMainMenu;
 
 public class WorkWithCurrentTreeMenu extends Menu{
 
-    FamilyTree familyTree;
-    public WorkWithCurrentTreeMenu(ConsoleUI consoleUI, FamilyTree familyTree) {
+    public WorkWithCurrentTreeMenu(ConsoleUI consoleUI, int numberTree) {
         super();
-        this.familyTree = familyTree;
-        commandList.add(new AddNewPerson(consoleUI, familyTree));
-        commandList.add(new ViewTree(consoleUI, familyTree));
-        commandList.add(new ChangePersonData(consoleUI, familyTree));
-        commandList.add(new SetWedding(consoleUI, familyTree));
-        commandList.add(new SetDivorce(consoleUI, familyTree));
+        commandList.add(new AddNewPerson(consoleUI, numberTree));
+        commandList.add(new ViewTree(consoleUI, numberTree));
+        commandList.add(new ChangePersonData(consoleUI, numberTree));
+        commandList.add(new SetWedding(consoleUI, numberTree));
+        commandList.add(new SetDivorce(consoleUI, numberTree));
         commandList.add(new ExitToMainMenu(consoleUI));
-    }
-    public void setFamilyTree(FamilyTree familyTree){
-        this.familyTree = familyTree;
     }
 //        1) Добавить человека
 //        2) Изменить данные человека или удалить

@@ -1,7 +1,7 @@
 package Menu;
 
 import command.Command;
-import View.Technicable;
+import view.Technicable;
 
 import java.util.ArrayList;
 import java.util.List;
