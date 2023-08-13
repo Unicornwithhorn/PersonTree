@@ -32,7 +32,7 @@ public class SystemUnit <E extends SystemUnit> implements Serializable, Comparab
         } else{
             StringBuilder stringBuilder = new StringBuilder();
             for (SystemUnit progenitor: progenitors){
-                stringBuilder.append(progenitor);
+                stringBuilder.append(progenitor.getName());
                 stringBuilder.append(", ");
             }
             return stringBuilder.toString();
@@ -44,7 +44,7 @@ public class SystemUnit <E extends SystemUnit> implements Serializable, Comparab
         } else{
             StringBuilder stringBuilder = new StringBuilder();
             for (SystemUnit descendent: descendents){
-                stringBuilder.append(descendent);
+                stringBuilder.append(descendent.getName());
                 stringBuilder.append(", ");
             }
             return stringBuilder.toString();
@@ -61,15 +61,13 @@ public class SystemUnit <E extends SystemUnit> implements Serializable, Comparab
             descendents.add(descendent);
         }
     }
-
-
     public String getName(){
         return this.name;
     }
-
     public void setName(String name){
         this.name = name;
     }
+
     public int getId() {
         return id;
     }

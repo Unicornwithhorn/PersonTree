@@ -4,10 +4,12 @@ import view.Technicable;
 import systemUnit.Person;
 import systemUnit.SystemUnit;
 
+import java.util.ArrayList;
+
 public class FamilyTree extends SimpleTree implements Technicable {
 
     public FamilyTree() {
-
+        this.systemUnitList = new ArrayList<Person>();
     }
 
     public int setWedding(int choice1, int choice2) {

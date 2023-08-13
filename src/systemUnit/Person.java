@@ -197,7 +197,7 @@ public class Person extends SystemUnit{
         res.append(getSpouseInfo());
         res.append(", Родители - ");
         res.append(showProgenitors());
-        res.append(", ");
+        res.append(", Дети");
         res.append(showDescendents());
         return res.toString();
     }

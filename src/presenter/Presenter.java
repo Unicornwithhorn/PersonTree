@@ -20,18 +20,25 @@ public class Presenter {
     public ArrayList<String> showExistingTrees(){ return treeService.showExistingTrees(); }
 //    public void choiceTree(ArrayList arrayList){ consoleUI.choiceTree(arrayList); }
     public void choiceTree(int choice){ consoleUI.choiceTree(choice); }
-    public void createNewTree(String name){
-        treeService.createNewTree(name);
+    public int createNewFamilyTree(){
+        return treeService.createNewFamilyTree();
     }
-    public void addNewPerson(int numberTree, String personName, int birthYear, int birthMonth, int birthDay,
-                             int deathYear, int deathMonth, int deathDay, int genderChoice ){
-        treeService.createNewPerson(numberTree, personName, birthYear, birthMonth, birthDay,
-                deathYear, deathMonth, deathDay, genderChoice);
+    public int createNewDogTree(){
+        return treeService.createNewDogTree();
+    }
+    public void setTreeName(int newFamilyTreeId, String treeName){
+        treeService.setTreeName(newFamilyTreeId, treeName);
+    }
+    public void addNewPerson(int numberTree, String personName, LocalDate birthDate, LocalDate deathDate, int genderChoice ){
+        treeService.createNewPerson(numberTree, personName, birthDate, deathDate, genderChoice);
     }
     public String viewTree(int numberTree){ return treeService.viewTree(numberTree); }
     public int getNumberUnits(int numberTree){ return treeService.getNumberUnits(numberTree); }
     public int setWedding(int numberTree, int choice1, int choice2){
         return treeService.setWedding(numberTree, choice1, choice2);
+    }
+    public int addProgenitorDescendentRelationship(int numberOfTree, int parentId, int childId){
+        return treeService.addProgenitorDescendentRelationship(numberOfTree,parentId, childId);
     }
 
     public String getNameUnit(int numberOfTree, int numberOfUnit){ return treeService.getNameUnit(numberOfTree, numberOfUnit);};

@@ -3,9 +3,8 @@ package menu;
 import command.actionsWithTree.*;
 import view.ConsoleUI;
 
-public class WorkWithCurrentTreeMenu extends Menu{
-
-    public WorkWithCurrentTreeMenu(ConsoleUI consoleUI, int numberTree) {
+public class WorkWithDogTreeMenu extends Menu{
+    public WorkWithDogTreeMenu(ConsoleUI consoleUI, int numberTree) {
         super();
         commandList.add(new AddNewPerson(consoleUI, numberTree));
         commandList.add(new ViewTree(consoleUI, numberTree));

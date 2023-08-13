@@ -1,6 +1,7 @@
 package view;
 import Gender.Gender;
 import menu.MainMenu;
+import menu.MenuOfTreeTypes;
 import menu.WorkWithCurrentTreeMenu;
 import menu.ChangePersonMenu;
 import presenter.Presenter;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ConsoleUI implements View, Technicable{
+public class ConsoleUI implements Technicable{
     private Presenter presenter;
     private Scanner scanner;
     private MainMenu mainMenu;
@@ -68,10 +69,20 @@ public class ConsoleUI implements View, Technicable{
     }
 
     public void createNewTree(){
-        System.out.println("Введите название дерева");
+        MenuOfTreeTypes menuOfTreeTypes = new MenuOfTreeTypes(this);
+        menuOfTreeTypes.menu();
+    }
+
+    public void makeNewTree(String text1, String text2){
+        int newTree = switch (text1) {
+            case "Введите название генеалогичекого дерева" -> presenter.createNewFamilyTree();
+            case "Введите название линии" -> presenter.createNewDogTree();
+            default -> 0;
+        };
+        System.out.println(text1);
         String treeName = scanner.nextLine();
-        presenter.createNewTree(treeName);
-        System.out.println(readText(31) + " " + treeName);
+        presenter.setTreeName(newTree, treeName);
+        System.out.println(text2 + treeName);
     }
 
     public LocalDate dateInput(String request){
@@ -94,28 +105,27 @@ public class ConsoleUI implements View, Technicable{
         System.out.println(readText(24));
         String personName =  scanner.nextLine();
         System.out.println(readText(25));
+        LocalDate birthDate = null;
         int birthYear = correctInput(0, Year.now().getValue());
-        int birthMonth = 0;
-        int birthDay = 0;
         if (birthYear!=0) {
             System.out.println(readText(26));
-            birthMonth = correctInput(12);
+            int birthMonth = correctInput(12);
             System.out.println(readText(27));
-            birthDay = correctInput(31);//TODO во всех месяцах 31 день, с 31 февраля получается ошибка =(
+            int birthDay = correctInput(31);//TODO во всех месяцах 31 день, с 31 февраля получается ошибка =(
+            birthDate = LocalDate.of(birthYear, birthMonth, birthDay);
         }
         System.out.println(readText(28));
+        LocalDate deathDate = null;
         int deathYear = correctInput(0, Year.now().getValue());//TODO остаётся возможность помереть до рождения
-        int deathMonth = 0;
-        int deathDay = 0;
         if (deathYear!=0) {
             System.out.println(readText(29));
-            deathMonth = correctInput(12);
+            int deathMonth = correctInput(12);
             System.out.println(readText(30));
-            deathDay = correctInput(31);//TODO во всех месяцах 31 день =(
+            int deathDay = correctInput(31);//TODO во всех месяцах 31 день =(
+            deathDate = LocalDate.of(deathYear, deathMonth, deathDay);
         }
         int genderChoice = menuStep(35,37);
-        presenter.addNewPerson(numberTree, personName, birthYear, birthMonth, birthDay,
-                deathYear, deathMonth, deathDay, genderChoice );
+        presenter.addNewPerson(numberTree, personName, birthDate, deathDate, genderChoice );
         System.out.println(readText(32) + personName);
     }
 
@@ -150,13 +160,13 @@ public class ConsoleUI implements View, Technicable{
 
 
     public int choicePersonFromTree(int numberOfTree, String message){
-        System.out.println(presenter.viewTree(numberOfTree));
         int numberOfUnits = presenter.getNumberUnits(numberOfTree);
         System.out.println(message);
         return correctInput(0, numberOfUnits);
     }
 
     public void setDivorce(int numberOfTree){
+        System.out.println(presenter.viewTree(numberOfTree));
         boolean flag = true;
         while (flag) {
             int choice1 = choicePersonFromTree(numberOfTree, "Введите id первого разводящегося");
@@ -178,13 +188,10 @@ public class ConsoleUI implements View, Technicable{
 
     public void setWedding(int numberOfTree){
         boolean flag = true;
-        int numberOfUnits = presenter.getNumberUnits(numberOfTree);
         while (flag) {
             System.out.println(presenter.viewTree(numberOfTree));
-            System.out.println("Введите id первого молодожёна");
-            int choice1 = correctInput(0, numberOfUnits);
-            System.out.println("Введите id второго молодожёна");
-            int choice2 = correctInput(0, numberOfUnits);
+            int choice1 = choicePersonFromTree(numberOfTree, "Введите id первого молодожёна");
+            int choice2 = choicePersonFromTree(numberOfTree, "Введите id второго молодожёна");
             int result = presenter.setWedding(numberOfTree, choice1, choice2);
             switch (result) {
                 case 1:
@@ -212,14 +219,40 @@ public class ConsoleUI implements View, Technicable{
         }
     }
 
+    public void setChildParentRelationship(int numberOfTree){
+        boolean flag = true;
+        while (flag) {
+            System.out.println(presenter.viewTree(numberOfTree));
+            int progenitor = choicePersonFromTree(numberOfTree, "Введите id родителя");
+            int descendent = choicePersonFromTree(numberOfTree, "Введите id ребёнка");
+            int result = presenter.addProgenitorDescendentRelationship(numberOfTree, progenitor, descendent);
+            switch (result) {
+                case 1:
+                    System.out.println(presenter.getNameUnit(numberOfTree, progenitor) + " является ребёнком " +
+                            presenter.getNameUnit(numberOfTree, descendent));
+                    break;
+                case 2:
+                    System.out.println(presenter.getNameUnit(numberOfTree, progenitor) + "уже является родителем" +
+                            presenter.getNameUnit(numberOfTree, descendent));
+                    break;
+                case 3:
+                    System.out.println("Связь успешно установлена");
+                    flag = false;
+                    break;
+            }
+            if (result != 3) {
+                System.out.println("Желаете попытаться ещё раз?\n 1) да\n 2) нет");
+                if (correctInput(2) == 2) {
+                    flag = false;
+                }
+            }
+        }
+    }
     public void exitProgram() {
         System.exit(0);
     }
 
-    @Override
-    public void printAnswer(String text) {
-        System.out.println(text);
-    }
+
 
 
 

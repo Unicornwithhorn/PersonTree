@@ -8,15 +8,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import systemUnit.ComparatorNames;
 
-public abstract class SimpleTree<E extends SystemUnit> implements Serializable, Iterable<E>, SystemIdCount {
+public abstract class SimpleTree <E extends SystemUnit> implements Serializable, Iterable<E>, SystemIdCount {
 //    public static PrintStream out;
         String name;
         protected int systemId;
         protected int elementId;
         protected ArrayList<E> systemUnitList; //изначально стоял просто list
-
-        public SimpleTree(ArrayList<E> systemUnitList){ this.systemUnitList = systemUnitList; }
-        public SimpleTree(){ this.systemUnitList = new ArrayList<E>();}
 
         public void setName(String name){
             this.name = name;
@@ -56,8 +53,18 @@ public abstract class SimpleTree<E extends SystemUnit> implements Serializable, 
             if (!systemUnitList.contains(systemUnit)) {
                 systemUnitList.add(systemUnit);
                 systemUnit.setId(++elementId);
-                addToProgenitors(systemUnit);
-                addToDescendents(systemUnit);
+            }
+        }
+
+        public int addProgenitorDescendentRelationship(E parent, E child){
+            if (parent.getProgenitors().contains(child)){
+                return 1;//родитель является ребёнком ребёнка
+            } else if (parent.getDescendents().contains(child)){
+                return 2;//связь уже установлена
+            } else {
+                parent.addDescendent(child);
+                child.addProgenitor(parent);
+                return 3; //успех!
             }
         }
         /**метод, добавляющий ко всем потомкам данной единицы системы эту единицу системы как предка
